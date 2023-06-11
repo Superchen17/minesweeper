@@ -2,6 +2,7 @@ package com.osullivan.minesweeper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -18,6 +19,29 @@ public class SquareTest {
     Square square2 = new Square(-5, -3);
     assertEquals(-5, square2.getRow());
     assertEquals(-3, square2.getColumn());
+  }
+
+  @Test
+  public void test_constructor_string_valid(){
+    Square square1 = new Square("1, 2");
+    assertEquals(1, square1.getRow());
+    assertEquals(2, square1.getColumn());
+
+    Square square2 = new Square(" 11, 22 ");
+    assertEquals(11, square2.getRow());
+    assertEquals(22, square2.getColumn());
+
+    Square square3 = new Square(" -11, -22 ");
+    assertEquals(-11, square3.getRow());
+    assertEquals(-22, square3.getColumn());
+  }
+
+  @Test
+  public void test_constructor_string_invalid(){
+    assertThrows(IllegalArgumentException.class, ()->new Square("asdf"));
+    assertThrows(IllegalArgumentException.class, ()->new Square("1,2,3"));
+    assertThrows(IllegalArgumentException.class, ()->new Square("1"));
+    assertThrows(IllegalArgumentException.class, ()->new Square("1, 2*"));
   }
 
   @Test

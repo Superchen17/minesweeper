@@ -3,12 +3,31 @@
  */
 package com.osullivan.minesweeper;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App {
+  private Player player;
+
+  public App(Player player){
+    this.player = player;
+  }
+
+  public void playGame() throws IOException{
+    while(this.player.isPlaying()){
+      this.player.makeOneMove();
     }
+  }
+
+  public static void main(String[] args) throws IOException {
+    Board board = new Board(10, 10, 10);
+    BufferedReader inStream = new BufferedReader(new InputStreamReader(System.in));
+    PrintStream outStream = System.out;
+
+    Player player = new TextPlayer(board, outStream, inStream);
+    App app = new App(player);
+    app.playGame();
+  }
 }

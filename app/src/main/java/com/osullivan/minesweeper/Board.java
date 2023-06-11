@@ -10,15 +10,38 @@ public class Board {
   private HashSet<Square> flags;
   private HashMap<Square, Integer> steps; // {square: num of mines around it}
 
-  //TODO
   /**
-   * default constructor
+   * constructor for random mine generation
    * @param width
    * @param height
    * @param numberOfMines
    */
   public Board(int width, int height, int numberOfMines){
+    this.width = width;
+    this.height = height;
+    this.flags = new HashSet<>();
+    this.steps = new HashMap<>();
 
+    MineGenerator generator = new MineGenerator(width, height, numberOfMines);
+    this.mines = generator.generateMines();
+  }
+
+  /**
+   * constructor with seeds for mine generation
+   * @param width
+   * @param height
+   * @param numberOfMines
+   * @param seedWidth
+   * @param seedHeight
+   */
+  public Board(int width, int height, int numberOfMines, int seedWidth, int seedHeight){
+    this.width = width;
+    this.height = height;
+    this.flags = new HashSet<>();
+    this.steps = new HashMap<>();
+
+    MineGenerator generator = new MineGenerator(width, height, numberOfMines, seedWidth, seedHeight);
+    this.mines = generator.generateMines();
   }
 
   /**
@@ -101,6 +124,9 @@ public class Board {
 
     int numOfMinesAround = this.countMineAround(square);
     this.steps.put(square, numOfMinesAround);
+    if(this.isSquareMined(square)){
+      return null;
+    }
 
     if(propagateIfNoMine && numOfMinesAround == 0){
       int currRow = square.getRow();
@@ -135,6 +161,12 @@ public class Board {
     }
     this.flags.remove(square);
     return null;
+  }
+
+  public boolean hasSteppedOnMine(){
+    HashSet<Square> steppedAndMined = new HashSet<>(this.steps.keySet());
+    steppedAndMined.retainAll(this.mines);
+    return steppedAndMined.size() > 0;
   }
 
   public boolean allMinesFlaggedAndSquareStepped(){
