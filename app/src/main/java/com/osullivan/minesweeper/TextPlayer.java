@@ -15,37 +15,31 @@ public class TextPlayer extends BasicPlayer {
   }
 
   protected String readAction(String prompt, HashSet<String> allowedChoices) throws IOException{
-    String choice = null;
-    while(choice == null){
-      this.outStream.print(prompt);
-      String s = this.inStream.readLine();
-      if(s == null){
-        throw new EOFException();
-      }
-      s = s.toUpperCase();
-      if(!allowedChoices.contains(s)){
-        this.outStream.print("invalid choice, choose from " + allowedChoices.toString() + "\n");
-      }
-      else{
-        choice = s;
-      }
+    this.outStream.print(prompt);
+    String s = this.inStream.readLine();
+    if(s == null){
+      throw new EOFException();
     }
-    return choice;
+    s = s.toUpperCase();
+    if(!allowedChoices.contains(s)){
+      this.outStream.print("invalid choice, choose from " + allowedChoices.toString() + "\n");
+      s = this.readAction(prompt, allowedChoices);
+    }
+    return s;
   }
 
   protected Square readSquare(String prompt) throws IOException {
-    Square square = null;
-    while(square == null){
-      this.outStream.print(prompt);
-      String s = this.inStream.readLine();
-      if(s == null){
-        throw new EOFException();
-      }
-      try {
-        square = new Square(s);
-      } catch (Exception e) {
-        this.outStream.print(e.getMessage() + "\n");
-      }
+    Square square;
+    this.outStream.print(prompt);
+    String s = this.inStream.readLine();
+    if(s == null){
+      throw new EOFException();
+    }
+    try {
+      square = new Square(s);
+    } catch (Exception e) {
+      this.outStream.print(e.getMessage() + "\n");
+      square = this.readSquare(prompt);
     }
     return square;
   }

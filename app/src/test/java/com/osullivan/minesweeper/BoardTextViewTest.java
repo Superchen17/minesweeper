@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTextViewTest {
   private BoardTextView getViewBySize(int width, int height){
     Board board = new Board(width, height);
-    BoardTextView boardView = new BoardTextView(board);
+    BoardTextView boardView = new BoardTextView(board, new SquareTextView(' ', 'F', 'M', 'N'));
     return boardView;
   }
 
@@ -37,6 +37,8 @@ public class BoardTextViewTest {
     assertEquals(2, boardView.getRowPaddingLength());
     boardView = this.getViewBySize(5, 101);
     assertEquals(3, boardView.getRowPaddingLength());
+    boardView = this.getViewBySize(1, 1);
+    assertEquals(1, boardView.getRowPaddingLength());
   }
 
   @Test
@@ -75,6 +77,22 @@ public class BoardTextViewTest {
       boardView.displayColumnHeader()
     );
   }
+
+  @Test
+  public void test_displayBoard_1x1(){
+    BoardTextView boardView;
+    boardView = this.getViewBySize(1, 1);
+
+    String expectedView = 
+      "  0\n" +
+      " ---\n" +
+      "0| |0\n" +
+      " ---\n" +
+      "  0";
+
+    assertEquals(expectedView, boardView.display(false));
+  }
+
 
   @Test
   public void test_displayBoard_12x12(){

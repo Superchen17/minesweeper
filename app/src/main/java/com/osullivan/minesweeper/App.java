@@ -4,6 +4,7 @@
 package com.osullivan.minesweeper;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -21,11 +22,66 @@ public class App {
     }
   }
 
+  public static boolean readSeeded(String prompt, BufferedReader inputReader, PrintStream out) throws IOException{
+    boolean areMinesTrulyRandom;
+    out.print(prompt + "\n");
+    String s = inputReader.readLine();
+    if(s == null){
+      throw new EOFException();
+    }
+    s = s.toUpperCase();
+    switch (s) {
+      case "Y":
+        areMinesTrulyRandom = true;
+        break;
+      case "N":
+        areMinesTrulyRandom = false;
+        break;
+      default:
+        out.print("invalid input: Y/N only\n");
+        areMinesTrulyRandom = App.readSeeded(prompt, inputReader, out);
+        break;
+    }
+    return areMinesTrulyRandom;
+  }
+
+  public static int readNumber(String prompt, int lowerBound, int upperBound, 
+      BufferedReader inputReader, PrintStream out) throws IOException {
+    int number;
+    out.print(prompt + "\n");
+    String s = inputReader.readLine();
+    if(s == null){
+      throw new EOFException();
+    }
+    try {
+      number = Integer.parseInt(s);
+      if(number < lowerBound || number > upperBound){
+        throw new IllegalArgumentException(
+          "number must be between " + Integer.toString(lowerBound) + " and " + Integer.toString(upperBound));
+      }
+    } catch (Exception e) {
+      out.print("invalid input: " + e.getMessage() + "\n");
+      number = App.readNumber(prompt, lowerBound, upperBound, inputReader, out);
+    }
+    return number;
+  }
+
   public static void main(String[] args) throws IOException {
-    Board board = new Board(10, 10, 10);
     BufferedReader inStream = new BufferedReader(new InputStreamReader(System.in));
     PrintStream outStream = System.out;
 
+    int width = App.readNumber("enter board width: ", 1, 30, inStream, outStream);
+    int height = App.readNumber("enter board height: ", 1, 30, inStream, outStream);
+    int numberOfMines = App.readNumber("enter mine number: ", 1, width * height, inStream, outStream);
+    boolean minesTrulyRandom = App.readSeeded("set mines to be truly random (Y/N): ", inStream, outStream);
+
+    Board board;
+    if(minesTrulyRandom){
+      board = new Board(width, height, numberOfMines);
+    }
+    else{
+      board = new Board(width, height, numberOfMines, 5, 1);
+    }
     Player player = new TextPlayer(board, outStream, inStream);
     App app = new App(player);
     app.playGame();

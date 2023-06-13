@@ -1,0 +1,164 @@
+enter board width: 
+enter board height: 
+enter mine number: 
+set mines to be truly random (Y/N): 
+  0 1 2 3 4
+ -----------
+4| | | | | |4
+ -----------
+3| | | | | |3
+ -----------
+2| | | | | |2
+ -----------
+1| | | | | |1
+ -----------
+0| | | | | |0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1| | | |4
+ -----------
+3|0|1| | | |3
+ -----------
+2|0|1| | | |2
+ -----------
+1|0|1| | | |1
+ -----------
+0|0|1| | | |0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1| |1|0|4
+ -----------
+3|0|1| |1|0|3
+ -----------
+2|0|1| |1|0|2
+ -----------
+1|0|1| |1|0|1
+ -----------
+0|0|1| |1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1| |1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1| |1|0|2
+ -----------
+1|0|1| |1|0|1
+ -----------
+0|0|1| |1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1| |1|0|2
+ -----------
+1|0|1| |1|0|1
+ -----------
+0|0|1| |1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1|1|1|0|2
+ -----------
+1|0|1| |1|0|1
+ -----------
+0|0|1| |1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+square must be in form of <row, column>
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1|1|1|0|2
+ -----------
+1|0|1|F|1|0|1
+ -----------
+0|0|1| |1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1|1|1|0|2
+ -----------
+1|0|1|F|1|0|1
+ -----------
+0|0|1|F|1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1|1|1|0|2
+ -----------
+1|0|1| |1|0|1
+ -----------
+0|0|1|F|1|0|0
+ -----------
+  0 1 2 3 4
+enter your action
+"F" to flag, "S" to step, "U" to unflag
+enter your square in the format "row, column"
+  0 1 2 3 4
+ -----------
+4|0|1|1|1|0|4
+ -----------
+3|0|1|F|1|0|3
+ -----------
+2|0|1|1|1|0|2
+ -----------
+1|0|1|1|1|0|1
+ -----------
+0|0|1|F|1|0|0
+ -----------
+  0 1 2 3 4
+you have won!

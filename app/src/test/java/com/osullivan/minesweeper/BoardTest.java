@@ -11,6 +11,24 @@ import org.junit.jupiter.api.Test;
 
 public class BoardTest {
   @Test
+  public void test_constructor_default(){
+    int width = 5;
+    int height = 10;
+    int expectedMines = 10;
+    Board board = new Board(width, height, expectedMines);
+
+    int mineCounter = 0;
+    for(int i = 0; i < board.getHeight(); i++){
+      for(int j = 0; j < board.getWidth(); j++){
+        if(board.isSquareMined(new Square(i, j))){
+          mineCounter++;
+        }
+      }
+    }
+    assertEquals(expectedMines, mineCounter);
+  }
+
+  @Test
   public void test_constructor_seeded(){
     int width = 10;
     int height = 10;

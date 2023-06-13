@@ -42,14 +42,14 @@ public class TextPlayerTest {
   @Test
   public void test_readAction_invalid() throws IOException{
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = this.createTextPlayer(10, 10, "a\nf\n", bytes);
+    TextPlayer player = this.createTextPlayer(10, 10, "a\nb\nf\n", bytes);
     HashSet<String> allowedChoices = this.createAllowedChoices();
 
     String prompt = "please enter your choice:\n";
     String errMsg = "invalid choice, choose from " + allowedChoices.toString() + "\n";
 
     assertEquals("F", player.readAction(prompt, allowedChoices));
-    assertEquals(prompt + errMsg + prompt, bytes.toString());
+    assertEquals(prompt + errMsg + prompt + errMsg + prompt, bytes.toString());
     bytes.reset();
   }
 
@@ -72,11 +72,11 @@ public class TextPlayerTest {
   @Test
   public void test_readSquare_invalid() throws IOException{
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    TextPlayer player = this.createTextPlayer(10, 10, "12\n1,2\n", bytes);
+    TextPlayer player = this.createTextPlayer(10, 10, "12\nasdf\n1,2\n", bytes);
     String prompt = "enter your square:\n";
     String errMsg = "square must be in form of <row, column>\n";
     assertEquals(new Square(1,2), player.readSquare(prompt));
-    assertEquals(prompt + errMsg + prompt, bytes.toString());
+    assertEquals(prompt + errMsg + prompt + errMsg + prompt, bytes.toString());
     bytes.reset();
   }
 

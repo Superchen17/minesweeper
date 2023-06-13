@@ -3,6 +3,56 @@
  */
 package com.osullivan.minesweeper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
+
 class AppTest {
-    
+  @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+  private void helper_test_main(String inputFile, String outputFile) throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(bytes, true);
+
+    InputStream input = getClass().getClassLoader().getResourceAsStream(inputFile);
+    assertNotNull(input);
+
+    InputStream expectedStream = getClass().getClassLoader().getResourceAsStream(outputFile);
+    assertNotNull(expectedStream);
+
+    InputStream oldIn = System.in;
+    PrintStream oldOut = System.out;
+
+    try{
+      System.setIn(input);
+      System.setOut(out);
+      App.main(new String[0]);
+    }
+    finally{
+      System.setIn(oldIn);
+      System.setOut(oldOut);
+    }
+
+    String expected  = new String(expectedStream.readAllBytes());
+    String actual = bytes.toString();
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void test_main_win() throws IOException{
+    this.helper_test_main("input_win.txt", "output_win.txt");
+  }
+
+  @Test
+  public void test_main_lost() throws IOException{
+    this.helper_test_main("input_lost.txt", "output_lost.txt");
+  }
 }

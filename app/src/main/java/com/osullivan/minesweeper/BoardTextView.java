@@ -15,11 +15,13 @@ public class BoardTextView {
   } 
 
   protected int getRowPaddingLength(){
-    return (int)Math.ceil(Math.log10(this.board.getHeight()));
+    int result = (int)Math.ceil(Math.log10(this.board.getHeight()));
+    return result > 0 ? result : 1;
   }
 
   protected int getColumnDisplayThickness(){
-    return (int)Math.ceil(Math.log10(this.board.getWidth()));
+    int result = (int)Math.ceil(Math.log10(this.board.getWidth()));
+    return result > 0 ? result : 1;
   }
 
   protected String displayHorizontalLine(){
