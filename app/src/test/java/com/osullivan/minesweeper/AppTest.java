@@ -5,11 +5,16 @@ package com.osullivan.minesweeper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
@@ -17,6 +22,68 @@ import org.junit.jupiter.api.parallel.ResourceLock;
 import org.junit.jupiter.api.parallel.Resources;
 
 class AppTest {
+  private int helper_readNumber(
+      String prompt, int lowerBound, int upperBound, String input, OutputStream bytes) throws IOException{
+    BufferedReader inputReader = new BufferedReader(new StringReader(input));
+    PrintStream outstream = new PrintStream(bytes, true);
+    int number = App.readNumber(prompt, lowerBound, upperBound, inputReader, outstream);
+    return number;
+  }
+
+  private boolean helper_readSeeded(String prompt, String input, OutputStream bytes) throws IOException{
+    BufferedReader inputReader = new BufferedReader(new StringReader(input));
+    PrintStream outstream = new PrintStream(bytes, true);
+    boolean isSeeded = App.readSeeded(prompt, inputReader, outstream);
+    return isSeeded;
+  }
+
+  @Test
+  public void test_readNumber_valid() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    String prompt = "prompt\n";
+    int number = this.helper_readNumber(prompt, 0, 10, "a\n-1\n11\n5\n", bytes);
+    assertEquals(5, number);
+    assertEquals(
+      prompt + 
+      "invalid input: For input string: \"a\"\n" + 
+      prompt + 
+      "invalid input: number must be between 0 and 10\n" + 
+      prompt + 
+      "invalid input: number must be between 0 and 10\n" + 
+      prompt, bytes.toString());
+    bytes.reset();
+  }
+
+  @Test
+  public void test_readNumber_null(){
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    assertThrows(EOFException.class, 
+      ()->this.helper_readNumber("prompt", 0, 10, "\n", bytes));
+    bytes.reset();
+  }
+
+  @Test
+  public void test_readSeeded_valid() throws IOException{
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    String prompt = "prompt\n";
+    boolean isSeeded = this.helper_readSeeded(prompt, "a\n1\ny\n", bytes);
+    assertEquals(true, isSeeded);
+    assertEquals(
+      prompt + 
+      "invalid input: Y/N only\n" + 
+      prompt + 
+      "invalid input: Y/N only\n" + 
+      prompt, bytes.toString());
+  }
+
+  @Test
+  public void test_readSeeded_null(){
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    assertThrows(EOFException.class, 
+      ()->this.helper_readSeeded("prompt", "\n", bytes));
+    bytes.reset();
+  }
+
   @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
   private void helper_test_main(String inputFile, String outputFile) throws IOException{
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

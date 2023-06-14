@@ -10,6 +10,19 @@ public class Board {
   private HashSet<Square> flags;
   private HashMap<Square, Integer> steps; // {square: num of mines around it}
 
+  private void squareParamChecker(int width, int height, int numberOfMines){
+    if(width <= 0 || height <= 0){
+      throw new IllegalArgumentException("invalid input: width and height must be > 0");
+    }
+    if( numberOfMines < 0){
+      throw new IllegalArgumentException(
+        "invalid input: number of mines must be > 0");
+    }
+    if(numberOfMines > width * height){
+      throw new IllegalArgumentException("invalid input: too many mines");
+    }
+  }
+
   /**
    * constructor for random mine generation
    * @param width
@@ -17,6 +30,7 @@ public class Board {
    * @param numberOfMines
    */
   public Board(int width, int height, int numberOfMines){
+    this.squareParamChecker(width, height, numberOfMines);
     this.width = width;
     this.height = height;
     this.flags = new HashSet<>();
@@ -35,6 +49,7 @@ public class Board {
    * @param seedHeight
    */
   public Board(int width, int height, int numberOfMines, int seedWidth, int seedHeight){
+    this.squareParamChecker(width, height, numberOfMines);
     this.width = width;
     this.height = height;
     this.flags = new HashSet<>();
@@ -52,6 +67,7 @@ public class Board {
    * @param mines
    */
   public Board(int width, int height, HashSet<Square> mines){
+    this.squareParamChecker(width, height, mines.size());
     this.width = width;
     this.height = height;
     this.mines = mines;
@@ -66,6 +82,7 @@ public class Board {
    * @param height
    */
   public Board(int width, int height){
+    this.squareParamChecker(width, height, 0);
     this.width = width;
     this.height = height;
     this.mines = new HashSet<>();

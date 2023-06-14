@@ -24,7 +24,7 @@ public class App {
 
   public static boolean readSeeded(String prompt, BufferedReader inputReader, PrintStream out) throws IOException{
     boolean areMinesTrulyRandom;
-    out.print(prompt + "\n");
+    out.print(prompt);
     String s = inputReader.readLine();
     if(s == null){
       throw new EOFException();
@@ -48,7 +48,7 @@ public class App {
   public static int readNumber(String prompt, int lowerBound, int upperBound, 
       BufferedReader inputReader, PrintStream out) throws IOException {
     int number;
-    out.print(prompt + "\n");
+    out.print(prompt);
     String s = inputReader.readLine();
     if(s == null){
       throw new EOFException();
@@ -70,10 +70,10 @@ public class App {
     BufferedReader inStream = new BufferedReader(new InputStreamReader(System.in));
     PrintStream outStream = System.out;
 
-    int width = App.readNumber("enter board width: ", 1, 30, inStream, outStream);
-    int height = App.readNumber("enter board height: ", 1, 30, inStream, outStream);
-    int numberOfMines = App.readNumber("enter mine number: ", 1, width * height, inStream, outStream);
-    boolean minesTrulyRandom = App.readSeeded("set mines to be truly random (Y/N): ", inStream, outStream);
+    int width = App.readNumber("enter board width: \n", 1, 30, inStream, outStream);
+    int height = App.readNumber("enter board height: \n", 1, 30, inStream, outStream);
+    int numberOfMines = App.readNumber("enter mine number: \n", 1, width * height, inStream, outStream);
+    boolean minesTrulyRandom = App.readSeeded("set mines to be truly random (Y/N): \n", inStream, outStream);
 
     Board board;
     if(minesTrulyRandom){

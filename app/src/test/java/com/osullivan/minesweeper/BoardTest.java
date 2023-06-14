@@ -3,6 +3,7 @@ package com.osullivan.minesweeper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -62,6 +63,19 @@ public class BoardTest {
     " ---------------------\n" +
     "  0 1 2 3 4 5 6 7 8 9";
     assertEquals(expectedView, boardView.display(true));
+  }
+
+  @Test
+  public void test_constructor_invalid(){
+    assertThrows(IllegalArgumentException.class, ()->new Board(-1, 2));
+    assertThrows(IllegalArgumentException.class, ()->new Board(2, -1));
+    assertThrows(IllegalArgumentException.class, ()->new Board(0, 5));
+    assertThrows(IllegalArgumentException.class, ()->new Board(5, 0));
+    assertThrows(IllegalArgumentException.class, ()->new Board(4,5,-2));
+    assertThrows(IllegalArgumentException.class, ()->new Board(4,5,21));
+
+    MineGenerator generator = new MineGenerator(3, 5, 15);
+    assertThrows(IllegalArgumentException.class, ()->new Board(2,5,generator.generateMines()));
   }
 
   @Test
